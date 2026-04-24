@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Laboratorio de Destinos — Pablo Campos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<!-- Incluimos Swiper CSS para el carrusel de testimonios -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bone: #F7F6F2;
+  --white: #FFFFFF;
+  --cobalt: #1A3A6B;
+  --cobalt-mid: #2B5BA8;
+  --cobalt-light: #E8EEF7;
+  --ink: #0D0D0D;
+  --ink-mid: #3A3A3A;
+  --ink-dim: #8A8A8A;
+  --line: rgba(13,13,13,0.1);
+  --line-cobalt: rgba(26,58,107,0.15);
+  --sans: 'Montserrat', sans-serif;
+  --mono: 'DM Mono', monospace;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bone);
+  color: var(--ink);
+  font-family: var(--sans);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3 { font-weight: 500; line-height: 1.1; letter-spacing: -0.02em; }
+a { color: inherit; text-decoration: none; }
+img { max-width: 100%; height: auto; display: block; }
+
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.label {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--ink-dim);
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.label::before { content: ''; display: block; width: 1.5rem; height: 1px; background: currentColor; }
+
+/* HEADER */
+header {
+  padding: 1.5rem 0;
+  border-bottom: 1px solid var(--line);
+  position: sticky;
+  top: 0;
+  background: rgba(247,246,242,0.95);
+  backdrop-filter: blur(5px);
+  z-index: 100;
+}
+header .container { display: flex; justify-content: space-between; align-items: center; }
+.logo-area { display: flex; align-items: center; gap: 1rem; }
+.logo-mark {
+  width: 2rem; height: 2rem;
+  background: var(--cobalt);
+  color: var(--white);
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 600; font-size: 1.2rem;
+  border-radius: 2px;
+}
+.logo-text { font-size: 1rem; font-weight: 500; letter-spacing: -0.01em; }
+.logo-sub { font-size: 0.75rem; color: var(--ink-dim); margin-top: 0.1rem; }
+
+/* HERO */
+.hero {
+  padding: 8rem 0 6rem;
+  border-bottom: 1px solid var(--line);
+}
+.hero h1 { font-size: clamp(2.5rem, 5vw, 4rem); margin-bottom: 1.5rem; max-width: 900px; }
+.hero-desc { 
+  font-size: 1.25rem; 
+  color: var(--ink-mid); 
+  max-width: 700px; 
+  margin-bottom: 3rem;
+  font-weight: 300;
+}
+.hero-bio {
+  font-family: var(--mono);
+  font-size: 0.9rem;
+  color: var(--cobalt);
+  background: var(--cobalt-light);
+  padding: 1rem 1.5rem;
+  border-left: 3px solid var(--cobalt);
+  max-width: 600px;
+  margin-bottom: 3rem;
+  line-height: 1.6;
+}
+.hero-meta {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 2rem;
+  padding-top: 3rem;
+  border-top: 1px solid var(--line);
+}
+.meta-block { display: flex; flex-direction: column; gap: 0.5rem; }
+.meta-val { font-size: 1.125rem; font-weight: 500; }
+
+/* SERVICIOS / ÁREAS */
+.areas-section { padding: 6rem 0; border-bottom: 1px solid var(--line); }
+.areas-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  margin-top: 4rem;
+}
+.area-card {
+  padding: 3rem;
+  background: var(--white);
+  border: 1px solid var(--line);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.area-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+  border-color: var(--line-cobalt);
+}
+.area-icon {
+  font-size: 2rem;
+  color: var(--cobalt);
+  margin-bottom: 1.5rem;
+  font-family: var(--mono);
+}
+.area-card h3 { font-size: 1.5rem; margin-bottom: 1rem; }
+.area-card p { color: var(--ink-dim); font-size: 0.95rem; margin-bottom: 1.5rem; }
+.area-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.tag {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  padding: 0.2rem 0.6rem;
+  background: var(--bone);
+  border: 1px solid var(--line);
+  color: var(--ink-mid);
+}
+
+/* TESTIMONIOS (LA EVIDENCIA) - NUEVA SECCIÓN */
+.evidence-section {
+  padding: 6rem 0;
+  background: var(--cobalt-light); /* Fondo suave para contrastar */
+  border-bottom: 1px solid var(--line);
+}
+.evidence-section h2 {
+  font-size: clamp(2rem, 4vw, 3rem);
+  margin-bottom: 1rem;
+  color: var(--cobalt);
+}
+.evidence-intro {
+  font-size: 1.1rem;
+  color: var(--ink-mid);
+  max-width: 600px;
+  margin-bottom: 3rem;
+}
+.keyword-highlight {
+  font-family: var(--mono);
+  color: var(--cobalt-mid);
+  font-weight: bold;
+  background: var(--white);
+  padding: 0.1rem 0.4rem;
+  border-radius: 2px;
+  font-size: 0.9em;
+}
+
+/* Swiper Styles for Testimonials */
+.swiper-container {
+  width: 100%;
+  padding-bottom: 3rem; /* Espacio para la paginación */
+  overflow: hidden;
+}
+.swiper-slide {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: var(--white);
+  border: 1px solid var(--line-cobalt);
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 4px 15px rgba(26,58,107,0.05);
+  height: auto; /* Permite que el slide se ajuste a la imagen */
+}
+.swiper-slide img {
+  max-height: 400px; /* Controla el alto máximo de las capturas */
+  width: auto;
+  object-fit: contain;
+  border-radius: 4px;
+}
+.swiper-pagination-bullet-active {
+  background: var(--cobalt) !important;
+}
+
+/* MÉTODO */
+.method-section { padding: 6rem 0; border-bottom: 1px solid var(--line); }
+.method-grid {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 4rem;
+  margin-top: 4rem;
+}
+.method-steps { display: flex; flex-direction: column; gap: 2rem; }
+.step {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 1.5rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid var(--line);
+}
+.step:last-child { border-bottom: none; padding-bottom: 0; }
+.step-num { font-family: var(--mono); color: var(--cobalt); font-size: 1.25rem; font-weight: 500; }
+.step-content h4 { font-size: 1.125rem; margin-bottom: 0.5rem; }
+.step-content p { color: var(--ink-dim); font-size: 0.95rem; }
+
+/* ABOUT / CREDENCIALES */
+.about-section { padding: 6rem 0; border-bottom: 1px solid var(--line); background: var(--white); }
+.about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; }
+.about-bio p { margin-bottom: 1.5rem; color: var(--ink-mid); }
+.credentials { margin-top: 2rem; }
+.credential-item { display: flex; gap: 1rem; margin-bottom: 1rem; align-items: baseline; }
+.credential-year { font-family: var(--mono); font-size: 0.8rem; color: var(--cobalt); min-width: 3.5rem; }
+.credential-text { font-size: 0.95rem; }
+.credential-text strong { display: block; color: var(--ink); font-weight: 500; }
+
+/* CTA FINAL */
+.cta-section { padding: 6rem 0; background: var(--cobalt); color: var(--white); text-align: center; }
+.cta-section .label { color: rgba(255,255,255,0.6); justify-content: center; }
+.cta-section p { margin-bottom: 3rem; font-size: 1.125rem; color: rgba(255,255,255,0.8); }
+.cta-buttons { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; }
+.btn-white {
+  display: inline-block;
+  padding: 1rem 2rem;
+  background: var(--white);
+  color: var(--cobalt);
+  font-weight: 500;
+  border-radius: 2px;
+  transition: opacity 0.2s;
+}
+.btn-white:hover { opacity: 0.9; }
+.btn-outline-white {
+  display: inline-block;
+  padding: 1rem 2rem;
+  border: 1px solid rgba(255,255,255,0.3);
+  color: var(--white);
+  font-weight: 500;
+  border-radius: 2px;
+  transition: background 0.2s;
+}
+.btn-outline-white:hover { background: rgba(255,255,255,0.1); }
+
+/* FOOTER */
+footer { padding: 2rem 0; background: var(--ink); color: var(--white); font-size: 0.85rem; }
+.footer-inner { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+.footer-inner a { color: var(--ink-dim); transition: color 0.2s; margin-left: 1rem; }
+.footer-inner a:hover { color: var(--white); }
+
+@media (max-width: 768px) {
+  .areas-grid, .method-grid, .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+  .hero { padding: 5rem 0 3rem; }
+  .hero-meta { grid-template-columns: 1fr; gap: 1rem; padding-top: 2rem; }
+  .area-card { padding: 2rem; }
+  .evidence-section { padding: 4rem 0; }
+  .swiper-slide img { max-height: 300px; }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="container">
+    <div class="logo-area">
+      <!-- Sustituir por tu logo real de Zapatovsky si lo tienes como imagen, por ahora mantengo la estructura textual con la Z -->
+      <div class="logo-mark">Z</div>
+      <div>
+        <div class="logo-text">Laboratorio de Destinos</div>
+        <div class="logo-sub">Pablo Campos</div>
+      </div>
+    </div>
+    <div style="font-family: var(--mono); font-size: 0.8rem; color: var(--cobalt);">EST. 2024</div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <div class="label">Consultoría Técnica & Evolutiva</div>
+    <h1>El puente entre la métrica y la intuición.</h1>
+    <p class="hero-desc">
+      Ni un espacio clínico sin alma, ni un templo de misticismo ciego. Aquí cruzamos la ingeniería de la conciencia con la construcción de realidades tangibles.
+    </p>
+    
+    <!-- BIO INSTAGRAM INTEGRADA -->
+    <div class="hero-bio">
+      <strong>Investigación del Ser a través del Tarot de Marsella.</strong><br>
+      Lecturas técnicas, evolutivas y con base en la evidencia del consultante.
+    </div>
+
+    <div class="hero-meta">
+      <div class="meta-block">
+        <span class="label" style="margin-bottom:0.2rem;">Enfoque</span>
+        <span class="meta-val">Metodología Camdor</span>
+      </div>
+      <div class="meta-block">
+        <span class="label" style="margin-bottom:0.2rem;">Herramienta Core</span>
+        <span class="meta-val">Tarot de Marsella</span>
+      </div>
+      <div class="meta-block">
+        <span class="label" style="margin-bottom:0.2rem;">Sede</span>
+        <span class="meta-val">Santiago, Chile</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LA EVIDENCIA (TESTIMONIOS) - NUEVA SECCIÓN -->
+<section class="evidence-section" id="evidencia">
+  <div class="container">
+    <div class="label">La Evidencia</div>
+    <h2>Resultados exactos.</h2>
+    <p class="evidence-intro">
+      No pido fe, busco claridad. Cuando la técnica se aplica a la exploración personal, los resultados son tangibles. Mis consultantes no buscan magia, buscan <span class="keyword-highlight">ordenar pensamientos</span>, una <span class="keyword-highlight">guía</span> práctica, respuestas <span class="keyword-highlight">exactas</span> en un espacio <span class="keyword-highlight">confiable</span> y <span class="keyword-highlight">explicativo</span>. Aquí están los datos.
+    </p>
+
+    <!-- Swiper Container -->
+    <div class="swiper-container">
+      <div class="swiper-wrapper">
+        <!-- Slide 1 -->
+        <div class="swiper-slide">
+          <img src="Test 1.png" alt="Testimonio de consultante 1" onerror="this.src='https://placehold.co/400x300?text=Testimonio+1'">
+        </div>
+        <!-- Slide 2 -->
+        <div class="swiper-slide">
+          <img src="Test 2.png" alt="Testimonio de consultante 2" onerror="this.src='https://placehold.co/400x300?text=Testimonio+2'">
+        </div>
+        <!-- Slide 3 -->
+        <div class="swiper-slide">
+          <img src="Test 3.png" alt="Testimonio de consultante 3" onerror="this.src='https://placehold.co/400x300?text=Testimonio+3'">
+        </div>
+        <!-- Slide 4 -->
+        <div class="swiper-slide">
+          <img src="Test 4.png" alt="Testimonio de consultante 4" onerror="this.src='https://placehold.co/400x300?text=Testimonio+4'">
+        </div>
+        <!-- Slide 5 -->
+        <div class="swiper-slide">
+          <img src="Test 5.png" alt="Testimonio de consultante 5" onerror="this.src='https://placehold.co/400x300?text=Testimonio+5'">
+        </div>
+        <!-- Slide 6 -->
+        <div class="swiper-slide">
+          <img src="Test 6.png" alt="Testimonio de consultante 6" onerror="this.src='https://placehold.co/400x300?text=Testimonio+6'">
+        </div>
+        <!-- Slide 7 -->
+        <div class="swiper-slide">
+          <img src="Test 7.png" alt="Testimonio de consultante 7" onerror="this.src='https://placehold.co/400x300?text=Testimonio+7'">
+        </div>
+        <!-- Slide 8 -->
+        <div class="swiper-slide">
+          <img src="Test 8.png" alt="Testimonio de consultante 8" onerror="this.src='https://placehold.co/400x300?text=Testimonio+8'">
+        </div>
+        <!-- Slide 9 -->
+        <div class="swiper-slide">
+          <img src="Test 9.png" alt="Testimonio de consultante 9" onerror="this.src='https://placehold.co/400x300?text=Testimonio+9'">
+        </div>
+      </div>
+      <!-- Agregamos paginación si se desea -->
+      <div class="swiper-pagination"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ÁREAS DE OPERACIÓN -->
+<section class="areas-section" id="areas">
+  <div class="container">
+    <div class="label">Líneas de Operación</div>
+    <h2>Protocolos de intervención.</h2>
+    <div class="areas-grid">
+      
+      <!-- Área 1 -->
+      <div class="area-card">
+        <div class="area-icon">[ T.E ]</div>
+        <h3>Tarot Evolutivo</h3>
+        <p>Lecturas estructuradas como diagnóstico. No adivinación, sino decodificación de patrones actuales para proyectar vectores de acción claros.</p>
+        <div class="area-tags">
+          <span class="tag">Diagnóstico</span>
+          <span class="tag">Estructura</span>
+          <span class="tag">Proyección</span>
+        </div>
+      </div>
+
+      <!-- Área 2 -->
+      <div class="area-card">
+        <div class="area-icon">[ A.C ]</div>
+        <h3>Asesoría Conceptual</h3>
+        <p>Aterrizaje de ideas y proyectos. Aplicación de la lógica para estructurar el desarrollo creativo o técnico de tus iniciativas personales.</p>
+        <div class="area-tags">
+          <span class="tag">Metodología Camdor</span>
+          <span class="tag">Resolución</span>
+          <span class="tag">Arquitectura de ideas</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- MÉTODO -->
+<section class="method-section" id="metodo">
+  <div class="container">
+    <div class="label">Mecánica de Trabajo</div>
+    <h2>Cómo operamos.</h2>
+    <div class="method-grid">
+      <div>
+        <p style="color: var(--ink-mid); margin-bottom: 2rem;">El proceso está diseñado para minimizar el ruido y maximizar la información útil. Desde el contacto inicial hasta el entregable final.</p>
+      </div>
+      <div class="method-steps">
+        <div class="step">
+          <div class="step-num">01</div>
+          <div class="step-content">
+            <h4>Toma de Requerimientos</h4>
+            <p>Contacto inicial para definir el alcance de la consulta. Qué necesitas ordenar, qué área requiere intervención.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">02</div>
+          <div class="step-content">
+            <h4>Análisis y Lectura</h4>
+            <p>Sesión sincrónica o asincrónica donde se despliega el mapa (Tarot u otra herramienta) para extraer la data.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">03</div>
+          <div class="step-content">
+            <h4>Síntesis y Vectores</h4>
+            <p>Entrega de conclusiones claras. Se pasa de la abstracción del símbolo a acciones concretas y entendibles.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section class="cta-section" id="contacto">
+  <div class="container">
+    <div class="label">Próximo paso</div>
+    <h2 style="margin-bottom: 1rem;">¿Listo para el<br><strong>diagnóstico?</strong></h2>
+    <p>Escríbeme directamente. Primera respuesta en menos de 24 horas.</p>
+    <div class="cta-buttons">
+      <!-- Actualicé el enlace con el número que aparecía en tu index original -->
+      <a href="https://wa.me/56942845536?text=Hola%20Pablo,%20quiero%20reservar%20un%20diagn%C3%B3stico%20en%20Laboratorio%20de%20Destinos" class="btn-white">WhatsApp directo</a>
+      <a href="mailto:pablocampossegundo@gmail.com" class="btn-outline-white">pablocampossegundo@gmail.com</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <span>© 2026 Laboratorio de Destinos · Pablo Campos Torres · Santiago, Chile</span>
+      <span>
+        <a href="#areas">Áreas</a>
+        <a href="#evidencia">Evidencia</a>
+        <a href="#metodo">Método</a>
+      </span>
+    </div>
+  </div>
+</footer>
+
+<!-- Swiper JS para el carrusel -->
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script>
+  // Inicialización del carrusel de testimonios
+  document.addEventListener('DOMContentLoaded', function () {
+    var swiper = new Swiper('.swiper-container', {
+      slidesPerView: 1,
+      spaceBetween: 20,
+      loop: true,
+      autoplay: {
+        delay: 3500,
+        disableOnInteraction: false,
+      },
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
+      breakpoints: {
+        // Cuando la pantalla es >= 640px
+        640: {
+          slidesPerView: 2,
+          spaceBetween: 20
+        },
+        // Cuando la pantalla es >= 968px
+        968: {
+          slidesPerView: 3,
+          spaceBetween: 30
+        }
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
