@@ -1,0 +1,1139 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Laboratorio de Destinos — Pablo Campos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bone: #F7F6F2;
+  --white: #FFFFFF;
+  --cobalt: #1A3A6B;
+  --cobalt-mid: #2B5BA8;
+  --cobalt-light: #E8EEF7;
+  --ink: #0D0D0D;
+  --ink-mid: #3A3A3A;
+  --ink-dim: #8A8A8A;
+  --line: rgba(13,13,13,0.1);
+  --line-cobalt: rgba(26,58,107,0.15);
+  --sans: 'Montserrat', sans-serif;
+  --mono: 'DM Mono', monospace;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bone);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-weight: 300;
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+
+/* === GRID SYSTEM === */
+.container {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 2.5rem;
+}
+
+/* === NAV === */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  background: rgba(247,246,242,0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--line);
+  padding: 1.25rem 2.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  animation: fadeDown 0.8s ease both;
+}
+
+.nav-logo {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--cobalt);
+  text-decoration: none;
+}
+
+.nav-links {
+  display: flex;
+  gap: 2.5rem;
+  list-style: none;
+}
+
+.nav-links a {
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.nav-links a:hover { color: var(--cobalt); }
+
+.nav-cta {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  background: var(--cobalt);
+  color: var(--white) !important;
+  padding: 0.5rem 1.25rem;
+  transition: background 0.2s !important;
+}
+
+.nav-cta:hover { background: var(--cobalt-mid) !important; color: var(--white) !important; }
+
+/* === HERO === */
+.hero {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  padding-top: 5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0; right: 0;
+  width: 50%;
+  height: 100%;
+  background: var(--white);
+  z-index: 0;
+}
+
+.hero-left {
+  padding: 4rem 3rem 4rem 0;
+  position: relative;
+  z-index: 1;
+  animation: fadeUp 0.9s 0.2s ease both;
+}
+
+.hero-right {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 0 4rem 3rem;
+  animation: fadeUp 0.9s 0.4s ease both;
+}
+
+.label {
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--cobalt);
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.label::before {
+  content: '';
+  display: inline-block;
+  width: 1.5rem;
+  height: 1px;
+  background: var(--cobalt);
+}
+
+h1 {
+  font-size: clamp(2.8rem, 5vw, 4.5rem);
+  font-weight: 300;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin-bottom: 1rem;
+}
+
+h1 strong {
+  font-weight: 600;
+  display: block;
+}
+
+.hero-desc {
+  font-size: 1rem;
+  color: var(--ink-mid);
+  max-width: 420px;
+  margin: 1.5rem 0 2.5rem;
+  line-height: 1.75;
+}
+
+.btn-primary {
+  display: inline-block;
+  background: var(--cobalt);
+  color: var(--white);
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 1rem 2rem;
+  text-decoration: none;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.btn-primary:hover {
+  background: var(--cobalt-mid);
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  display: inline-block;
+  color: var(--ink-mid);
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 1rem 2rem;
+  text-decoration: none;
+  border: 1px solid var(--line);
+  margin-left: 1rem;
+  transition: border-color 0.2s, color 0.2s;
+}
+
+.btn-secondary:hover {
+  border-color: var(--cobalt);
+  color: var(--cobalt);
+}
+
+/* card de la carta */
+.card-specimen {
+  width: 240px;
+  aspect-ratio: 2/3.5;
+  background: var(--white);
+  border: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  box-shadow: 0 40px 80px rgba(0,0,0,0.06);
+}
+
+.card-specimen::before {
+  content: '';
+  position: absolute;
+  inset: 12px;
+  border: 1px solid var(--line-cobalt);
+}
+
+.card-inner-symbol {
+  width: 80px;
+  height: 80px;
+  border: 1px solid var(--cobalt-light);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.card-roman {
+  font-family: var(--mono);
+  font-size: 1.4rem;
+  color: var(--cobalt);
+  font-weight: 300;
+}
+
+.card-name {
+  font-family: var(--mono);
+  font-size: 0.55rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+}
+
+/* annotation lines */
+.annotation {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.annotation-line {
+  height: 1px;
+  background: var(--cobalt-mid);
+  opacity: 0.4;
+}
+
+.annotation-text {
+  font-family: var(--mono);
+  font-size: 0.55rem;
+  letter-spacing: 0.1em;
+  color: var(--cobalt);
+  white-space: nowrap;
+}
+
+.ann-1 { top: 25%; right: -130px; }
+.ann-1 .annotation-line { width: 60px; }
+.ann-2 { top: 50%; right: -120px; }
+.ann-2 .annotation-line { width: 50px; }
+.ann-3 { bottom: 30%; right: -140px; }
+.ann-3 .annotation-line { width: 70px; }
+
+/* === STATS BAR === */
+.stats-bar {
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  background: var(--white);
+  padding: 2rem 0;
+  animation: fadeUp 0.9s 0.6s ease both;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  divide-x: 1px solid var(--line);
+}
+
+.stat-item {
+  padding: 0 2rem;
+  border-right: 1px solid var(--line);
+  text-align: center;
+}
+
+.stat-item:last-child { border-right: none; }
+.stat-item:first-child { padding-left: 0; text-align: left; }
+
+.stat-num {
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--cobalt);
+  line-height: 1;
+  margin-bottom: 0.25rem;
+}
+
+.stat-label {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+}
+
+/* === SECTIONS === */
+section {
+  padding: 6rem 0;
+}
+
+.section-header {
+  margin-bottom: 4rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  align-items: end;
+}
+
+h2 {
+  font-size: clamp(2rem, 3.5vw, 3rem);
+  font-weight: 300;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+h2 strong { font-weight: 600; }
+
+.section-desc {
+  font-size: 0.9rem;
+  color: var(--ink-mid);
+  line-height: 1.8;
+}
+
+/* === METODOLOGÍA === */
+.method-bg { background: var(--white); }
+
+.method-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+}
+
+.method-card {
+  background: var(--white);
+  padding: 2.5rem 2rem;
+  position: relative;
+  transition: background 0.3s;
+}
+
+.method-card:hover { background: var(--cobalt-light); }
+
+.method-num {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  color: var(--cobalt);
+  margin-bottom: 1.5rem;
+  display: block;
+}
+
+.method-title {
+  font-size: 1.1rem;
+  font-weight: 500;
+  margin-bottom: 0.75rem;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+}
+
+.method-body {
+  font-size: 0.85rem;
+  color: var(--ink-mid);
+  line-height: 1.7;
+}
+
+.method-keyword {
+  display: inline-block;
+  margin-top: 1.25rem;
+  font-family: var(--mono);
+  font-size: 0.55rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--cobalt);
+  border: 1px solid var(--line-cobalt);
+  padding: 0.25rem 0.6rem;
+}
+
+/* === TARIFAS === */
+.pricing-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+}
+
+.pricing-card {
+  background: var(--bone);
+  padding: 3rem 2.5rem;
+  position: relative;
+}
+
+.pricing-card.featured {
+  background: var(--cobalt);
+  color: var(--white);
+}
+
+.pricing-tag {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+  margin-bottom: 2rem;
+  display: block;
+}
+
+.pricing-card.featured .pricing-tag { color: rgba(255,255,255,0.5); }
+
+.pricing-price {
+  font-size: 3.5rem;
+  font-weight: 600;
+  line-height: 1;
+  color: var(--cobalt);
+  margin-bottom: 0.25rem;
+}
+
+.pricing-card.featured .pricing-price { color: var(--white); }
+
+.pricing-currency {
+  font-size: 1rem;
+  font-weight: 300;
+  vertical-align: super;
+}
+
+.pricing-period {
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  color: var(--ink-dim);
+  letter-spacing: 0.1em;
+  margin-bottom: 2rem;
+  display: block;
+}
+
+.pricing-card.featured .pricing-period { color: rgba(255,255,255,0.5); }
+
+.pricing-features {
+  list-style: none;
+  margin-bottom: 2.5rem;
+}
+
+.pricing-features li {
+  font-size: 0.85rem;
+  color: var(--ink-mid);
+  padding: 0.6rem 0;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.pricing-card.featured .pricing-features li {
+  color: rgba(255,255,255,0.8);
+  border-bottom-color: rgba(255,255,255,0.1);
+}
+
+.check {
+  width: 16px;
+  height: 16px;
+  border: 1px solid var(--cobalt);
+  border-radius: 50%;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 9px;
+  color: var(--cobalt);
+}
+
+.pricing-card.featured .check {
+  border-color: rgba(255,255,255,0.5);
+  color: var(--white);
+}
+
+.btn-light {
+  display: inline-block;
+  background: var(--white);
+  color: var(--cobalt);
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 1rem 2rem;
+  text-decoration: none;
+  transition: background 0.2s;
+  width: 100%;
+  text-align: center;
+}
+
+.btn-light:hover { background: var(--cobalt-light); }
+
+/* === TESTIMONIOS === */
+.testimonials-bg { background: var(--white); }
+
+.testimonials-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+.testimonial-card {
+  background: var(--bone);
+  padding: 2rem;
+  border: 1px solid var(--line);
+  position: relative;
+}
+
+.testimonial-card::before {
+  content: '"';
+  position: absolute;
+  top: 1rem;
+  right: 1.5rem;
+  font-size: 4rem;
+  font-weight: 600;
+  color: var(--cobalt-light);
+  line-height: 1;
+  font-family: Georgia, serif;
+}
+
+.testimonial-text {
+  font-size: 0.9rem;
+  line-height: 1.75;
+  color: var(--ink-mid);
+  margin-bottom: 1.5rem;
+}
+
+.testimonial-keyword {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--cobalt);
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.testimonial-author {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--line);
+}
+
+.author-initial {
+  width: 32px;
+  height: 32px;
+  background: var(--cobalt-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  color: var(--cobalt);
+  font-weight: 500;
+  flex-shrink: 0;
+}
+
+.author-name {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--ink);
+}
+
+.author-detail {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.08em;
+  color: var(--ink-dim);
+}
+
+/* === OPERADOR === */
+.operator-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: 5rem;
+  align-items: center;
+}
+
+.operator-portrait {
+  aspect-ratio: 3/4;
+  background: var(--white);
+  border: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.portrait-placeholder {
+  text-align: center;
+}
+
+.portrait-initials {
+  font-family: var(--mono);
+  font-size: 4rem;
+  color: var(--cobalt-light);
+  font-weight: 300;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.portrait-label {
+  font-family: var(--mono);
+  font-size: 0.55rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+}
+
+.operator-portrait::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--cobalt);
+}
+
+.credentials {
+  margin-top: 2rem;
+}
+
+.credential-item {
+  display: flex;
+  gap: 1rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--line);
+  align-items: flex-start;
+}
+
+.credential-year {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.08em;
+  color: var(--cobalt);
+  flex-shrink: 0;
+  width: 50px;
+  padding-top: 0.1rem;
+}
+
+.credential-text {
+  font-size: 0.85rem;
+  color: var(--ink-mid);
+  line-height: 1.5;
+}
+
+.credential-text strong {
+  font-weight: 500;
+  color: var(--ink);
+  display: block;
+}
+
+/* === CTA FINAL === */
+.cta-section {
+  background: var(--cobalt);
+  color: var(--white);
+  padding: 6rem 0;
+  text-align: center;
+}
+
+.cta-section .label { justify-content: center; color: rgba(255,255,255,0.5); }
+.cta-section .label::before { background: rgba(255,255,255,0.3); }
+
+.cta-section h2 {
+  color: var(--white);
+  margin: 0 auto 1rem;
+  max-width: 600px;
+}
+
+.cta-section p {
+  color: rgba(255,255,255,0.6);
+  font-size: 0.95rem;
+  margin-bottom: 3rem;
+}
+
+.cta-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btn-white {
+  display: inline-block;
+  background: var(--white);
+  color: var(--cobalt);
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 1rem 2.5rem;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+
+.btn-white:hover { background: var(--cobalt-light); }
+
+.btn-outline-white {
+  display: inline-block;
+  border: 1px solid rgba(255,255,255,0.3);
+  color: rgba(255,255,255,0.7);
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 1rem 2.5rem;
+  text-decoration: none;
+  transition: border-color 0.2s, color 0.2s;
+}
+
+.btn-outline-white:hover {
+  border-color: var(--white);
+  color: var(--white);
+}
+
+/* === FOOTER === */
+footer {
+  background: var(--ink);
+  color: rgba(255,255,255,0.3);
+  padding: 2rem 0;
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+}
+
+.footer-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+footer a {
+  color: rgba(255,255,255,0.4);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+footer a:hover { color: var(--white); }
+
+/* === ANIMATIONS === */
+@keyframes fadeDown {
+  from { opacity: 0; transform: translateY(-12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(32px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 768px) {
+  .container { padding: 0 1.25rem; }
+  nav { padding: 1rem 1.25rem; }
+  .nav-links { display: none; }
+  .hero { grid-template-columns: 1fr; padding-top: 4rem; }
+  .hero::before { display: none; }
+  .hero-left { padding: 3rem 0 2rem; }
+  .hero-right { padding: 0 0 3rem; justify-content: flex-start; }
+  .ann-1, .ann-2, .ann-3 { display: none; }
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .section-header { grid-template-columns: 1fr; }
+  .method-grid { grid-template-columns: 1fr; }
+  .pricing-grid { grid-template-columns: 1fr; }
+  .testimonials-grid { grid-template-columns: 1fr; }
+  .operator-grid { grid-template-columns: 1fr; gap: 2rem; }
+  .btn-secondary { margin-left: 0; margin-top: 0.75rem; display: inline-block; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#">Laboratorio<br>de Destinos</a>
+  <ul class="nav-links">
+    <li><a href="#metodologia">Metodología</a></li>
+    <li><a href="#tarifas">Tarifas</a></li>
+    <li><a href="#el-operador">El Operador</a></li>
+    <li><a href="#contacto" class="nav-cta">Reservar sesión</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section style="padding: 0;">
+  <div class="container">
+    <div class="hero">
+      <div class="hero-left">
+        <div class="label">Diagnóstico evolutivo · Santiago, Chile</div>
+        <h1>
+          Claridad<br>
+          <strong>sin margen<br>de error.</strong>
+        </h1>
+        <p class="hero-desc">
+          El Tarot del Marsella como sistema de análisis. Variables, patrones, latencias. 
+          No adivinas el futuro — lo diagnosticas y lo intervenes.
+        </p>
+        <a href="#contacto" class="btn-primary">Reservar diagnóstico</a>
+        <a href="#metodologia" class="btn-secondary">Ver metodología</a>
+      </div>
+
+      <div class="hero-right">
+        <div style="position: relative;">
+          <div class="card-specimen">
+            <div class="annotation ann-1">
+              <div class="annotation-line"></div>
+              <div class="annotation-text">Eje de proyección</div>
+            </div>
+            <div class="annotation ann-2">
+              <div class="annotation-line"></div>
+              <div class="annotation-text">Variable central</div>
+            </div>
+            <div class="annotation ann-3">
+              <div class="annotation-line"></div>
+              <div class="annotation-text">Latencia activa</div>
+            </div>
+            <div class="card-inner-symbol">
+              <span class="card-roman">I</span>
+            </div>
+            <span class="card-name">El Mago</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-bar">
+  <div class="container">
+    <div class="stats-grid">
+      <div class="stat-item">
+        <div class="stat-num">3+</div>
+        <div class="stat-label">Años en práctica</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">78</div>
+        <div class="stat-label">Variables del sistema</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">60'</div>
+        <div class="stat-label">Por sesión</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">100%</div>
+        <div class="stat-label">Sesiones registradas</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- METODOLOGÍA -->
+<section class="method-bg" id="metodologia">
+  <div class="container">
+    <div class="section-header">
+      <h2>La <strong>Metodología</strong><br>Camdor</h2>
+      <p class="section-desc">
+        El Tarot del Marsella no es un oráculo de respuestas fijas. 
+        Es un mapa de 78 variables que, combinadas, producen un diagnóstico 
+        de la situación actual y su vector de movimiento. Sin magia. Con sistema.
+      </p>
+    </div>
+
+    <div class="method-grid">
+      <div class="method-card">
+        <span class="method-num">01 — Ingesta</span>
+        <div class="method-title">Lectura de la matriz</div>
+        <p class="method-body">
+          Se establece la pregunta como hipótesis de trabajo. 
+          El despliegue de cartas construye el mapa de variables activas 
+          en el momento del diagnóstico.
+        </p>
+        <span class="method-keyword">Análisis de variables</span>
+      </div>
+      <div class="method-card">
+        <span class="method-num">02 — Procesamiento</span>
+        <div class="method-title">Identificación de latencias</div>
+        <p class="method-body">
+          Cada carta es una variable con peso propio. 
+          La posición, la relación entre cartas y la dirección de las figuras 
+          revelan patrones no evidentes al observador interno.
+        </p>
+        <span class="method-keyword">Diagnóstico evolutivo</span>
+      </div>
+      <div class="method-card">
+        <span class="method-num">03 — Intervención</span>
+        <div class="method-title">Vector de acción</div>
+        <p class="method-body">
+          El diagnóstico no termina en la descripción — termina en la 
+          prescripción. Se identifican los puntos de palanca para 
+          intervenir el sistema con precisión.
+        </p>
+        <span class="method-keyword">Resolución de latencias</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TARIFAS -->
+<section id="tarifas">
+  <div class="container">
+    <div class="section-header">
+      <h2><strong>Tarifas</strong><br>y formatos</h2>
+      <p class="section-desc">
+        Transparencia total. Cada sesión tiene duración definida, 
+        registro completo y un único objetivo: que salgas con más 
+        claridad de la que entraste.
+      </p>
+    </div>
+
+    <div class="pricing-grid">
+      <div class="pricing-card">
+        <span class="pricing-tag">Diagnóstico puntual</span>
+        <div class="pricing-price">
+          <span class="pricing-currency">$</span>20.000
+        </div>
+        <span class="pricing-period">CLP · Sesión de 30 minutos</span>
+        <ul class="pricing-features">
+          <li><span class="check">✓</span> Una pregunta específica</li>
+          <li><span class="check">✓</span> Lectura de 5 cartas</li>
+          <li><span class="check">✓</span> Síntesis verbal en sesión</li>
+          <li><span class="check">✓</span> Vía videollamada o presencial</li>
+        </ul>
+        <a href="#contacto" class="btn-primary" style="display: block; text-align: center;">Reservar</a>
+      </div>
+
+      <div class="pricing-card featured">
+        <span class="pricing-tag">Diagnóstico completo</span>
+        <div class="pricing-price">
+          <span class="pricing-currency">$</span>40.000
+        </div>
+        <span class="pricing-period">CLP · Sesión de 60 minutos</span>
+        <ul class="pricing-features">
+          <li><span class="check">✓</span> Análisis integral de situación</li>
+          <li><span class="check">✓</span> Lectura de hasta 12 variables</li>
+          <li><span class="check">✓</span> Grabación de la sesión</li>
+          <li><span class="check">✓</span> Informe escrito post-sesión</li>
+          <li><span class="check">✓</span> Seguimiento 7 días post-sesión</li>
+        </ul>
+        <a href="#contacto" class="btn-light">Reservar diagnóstico completo</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIOS -->
+<section class="testimonials-bg" id="testimonios">
+  <div class="container">
+    <div class="section-header">
+      <h2>Lo que <strong>produce</strong><br>la claridad</h2>
+      <p class="section-desc">
+        Los resultados no se miden en predicciones cumplidas. 
+        Se miden en decisiones tomadas con información.
+      </p>
+    </div>
+
+    <div class="testimonials-grid">
+      <div class="testimonial-card">
+        <span class="testimonial-keyword">Resolución</span>
+        <p class="testimonial-text">
+          "Llegué con una duda que llevaba meses bloqueándome. 
+          Salí con un diagnóstico tan claro que tomé la decisión 
+          esa misma tarde. No fue magia — fue orden."
+        </p>
+        <div class="testimonial-author">
+          <div class="author-initial">CR</div>
+          <div>
+            <div class="author-name">C. Reyes</div>
+            <div class="author-detail">Diseñadora · Santiago</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial-card">
+        <span class="testimonial-keyword">Claridad</span>
+        <p class="testimonial-text">
+          "Lo que más me sorprendió fue el léxico. Pablo no habla 
+          de energías ni de suerte. Habla de patrones, de variables, 
+          de qué está activo y qué no. Es otra categoría."
+        </p>
+        <div class="testimonial-author">
+          <div class="author-initial">MV</div>
+          <div>
+            <div class="author-name">M. Valdés</div>
+            <div class="author-detail">Emprendedora · Valparaíso</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial-card">
+        <span class="testimonial-keyword">Precisión</span>
+        <p class="testimonial-text">
+          "El informe post-sesión fue lo que más valor me dio. 
+          Poder releerlo días después y ver que todo seguía teniendo 
+          sentido — eso es lo que justifica el precio."
+        </p>
+        <div class="testimonial-author">
+          <div class="author-initial">FA</div>
+          <div>
+            <div class="author-name">F. Araya</div>
+            <div class="author-detail">Ejecutivo · Santiago</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EL OPERADOR -->
+<section id="el-operador">
+  <div class="container">
+    <div class="operator-grid">
+      <div>
+        <div class="operator-portrait">
+          <div class="portrait-placeholder">
+            <span class="portrait-initials">PC</span>
+            <span class="portrait-label">Pablo Campos Torres</span>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="label">El operador del sistema</div>
+        <h2 style="margin-bottom: 1rem;">Formación<br><strong>& rigor.</strong></h2>
+        <p style="font-size: 0.95rem; color: var(--ink-mid); line-height: 1.8; margin-bottom: 0.5rem;">
+          La confianza nace de saber quién opera el algoritmo. 
+          Mi base es pedagógica: vengo de descomponer lo complejo 
+          en partes comprensibles. Eso mismo aplico al Tarot del Marsella.
+        </p>
+        <p style="font-size: 0.95rem; color: var(--ink-mid); line-height: 1.8;">
+          No hay misterio en el método — hay estructura, 
+          consistencia y años de práctica documentada.
+        </p>
+
+        <div class="credentials">
+          <div class="credential-item">
+            <span class="credential-year">UMCE</span>
+            <div class="credential-text">
+              <strong>Profesor de Música</strong>
+              Universidad Metropolitana de Ciencias de la Educación
+            </div>
+          </div>
+          <div class="credential-item">
+            <span class="credential-year">2023</span>
+            <div class="credential-text">
+              <strong>Fenomenología de la Psicopatología</strong>
+              Clínica Psiquiátrica · U. de Chile
+            </div>
+          </div>
+          <div class="credential-item">
+            <span class="credential-year">ISME</span>
+            <div class="credential-text">
+              <strong>Conferencia Panamericana de Educación Musical</strong>
+              International Society for Music Education
+            </div>
+          </div>
+          <div class="credential-item">
+            <span class="credential-year">2021</span>
+            <div class="credential-text">
+              <strong>Práctica activa en Tarot del Marsella</strong>
+              Metodología Camdor · Santiago, Chile
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section class="cta-section" id="contacto">
+  <div class="container">
+    <div class="label">Próximo paso</div>
+    <h2 style="margin-bottom: 1rem;">¿Listo para el<br><strong>diagnóstico?</strong></h2>
+    <p>Escríbeme directamente. Primera respuesta en menos de 24 horas.</p>
+    <div class="cta-buttons">
+      <a href="https://wa.me/56942845536?text=Hola%20Pablo,%20quiero%20reservar%20un%20diagn%C3%B3stico%20en%20Laboratorio%20de%20Destinos" class="btn-white">WhatsApp directo</a>
+      <a href="mailto:pablocampossegundo@gmail.com" class="btn-outline-white">pablocampossegundo@gmail.com</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <span>© 2025 Laboratorio de Destinos · Pablo Campos Torres · Santiago, Chile</span>
+      <span>
+        <a href="https://instagram.com/laboratoriodedestinos">@laboratoriodedestinos</a>
+        &nbsp;·&nbsp;
+        <a href="tel:+56942845536">+56 9 4284 5536</a>
+      </span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
